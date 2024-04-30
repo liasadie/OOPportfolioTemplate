@@ -2,11 +2,13 @@ import uk.ac.leedsbeckett.oop.OOPGraphics;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class TurtleGraphics extends OOPGraphics {
 
     private final String[] commands =
-            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear"};
+            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear", "circle", "square", "about"};
 
 
     public TurtleGraphics() {
@@ -18,6 +20,10 @@ public class TurtleGraphics extends OOPGraphics {
         //about();                                                                //call the OOPGraphics about method to display version information.
     }
 
+    public void displayMessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+    }
+
 
     @Override
     public void processCommand(String command) {
@@ -25,13 +31,14 @@ public class TurtleGraphics extends OOPGraphics {
         ;
         if (!isValidCommand(commands[0])) {
             System.out.println("Invalid command");
-            return;}
+            return;
+        }
         //if(commands.length>2){
-         //   System.out.println("Incorrect number of parameters");
-          //  return;
-       // }
+        //   System.out.println("Incorrect number of parameters");
+        //  return;
+        // }
 
-        switch(commands[0]) {
+        switch (commands[0]) {
             case "penup":
                 penUp();
                 return;
@@ -64,65 +71,131 @@ public class TurtleGraphics extends OOPGraphics {
                 return;
             case "reset":
                 reset();
+                clear();
                 return;
             case "clear":
                 clear();
                 return;
+            case "circle":
+                doMyCircleImplementation(commands);
+                return;
+            case "square":
+                doMySquareImplementation(commands);
+                return;
+            case "about":
+                about();
+                displayMessage("Lia");
+                return;
+        }
+    }
+
+    private void doMySquareImplementation(String[] commands) {
+        if (commands.length != 2) {
+            System.out.println("Incorrect number of parameters");
+            return;
+        }
+        int side = Integer.parseInt(commands[1]);
+        if(side <0 || side > 600){
+            System.out.println("Out of bounds");
+            return;
+        }
+        try{
+            forward(side);
+            turnRight(90);
+            forward(side);
+            turnRight(90);
+            forward(side);
+            turnRight(90);
+            forward(side);
+        }
+        catch(NumberFormatException e) {
+            System.out.println("Parameter 2 needs to be a number");
+        }
+    }
+
+    private void doMyCircleImplementation(String[] commands) {
+        if (commands.length != 2) {
+            System.out.println("Incorrect number of parameters");
+            return;
+        }
+        int radius = Integer.parseInt(commands[1]);
+        if(radius <0 || radius >600){
+            System.out.println("radius is too large");
+            return;
+        }
+        try{
+            circle(radius);
+        }
+        catch(NumberFormatException e) {
+            System.out.println("Parameter 2 needs to be a number");
         }
     }
 
     private void doMyTurnRightImplementation(String[] commands) {
-        if (commands.length!=2){
+        if (commands.length != 2) {
             System.out.println("Incorrect number of parameters");
+            return;
         }
-        try{
-            int angle = Integer.parseInt(commands[1]);
-            turnRight(angle);
+        int angleRight = Integer.parseInt(commands[1]);
+        if (angleRight < 0 || angleRight > 360) {
+            System.out.println("Angle must be between 0 and 360 degrees");
+            return;
         }
-        catch(NumberFormatException e){
+        try {
+            turnRight(angleRight);
+        } catch (NumberFormatException e) {
             System.out.println("Parameter 2 needs to be a number");
         }
     }
 
     private void doMyTurnLeftImplementation(String[] commands) {
-        if(commands.length!=2){
+        if (commands.length != 2) {
             System.out.println("Incorrect number of parameters");
             return;
         }
-        try{
-            int angle = Integer.parseInt(commands[1]);
-            turnLeft(angle);
+        int angleLeft = Integer.parseInt(commands[1]);
+        if (angleLeft <0 || angleLeft > 360){
+            System.out.println("Angle must be between 0 and 360 degrees");
+            return;
         }
-        catch(NumberFormatException e){
+        try {
+            turnLeft(angleLeft);
+        } catch (NumberFormatException e) {
             System.out.println("Parameter 2 needs to be a number");
         }
     }
 
 
     private void doMyBackwardImplementation(String[] commands) {
-        if(commands.length!=2){
+        if (commands.length != 2) {
             System.out.println("Incorrect number of parameters");
             return;
         }
-        try {
-            int amount = Integer.parseInt(commands[1]);
-            forward(-amount);
+        int amount = Integer.parseInt(commands[1]);
+        if(amount <-600 || amount >0){
+            System.out.println("Out of bounds");
+            return;
         }
-        catch(NumberFormatException e){
+        try {
+            forward(-amount);
+        } catch (NumberFormatException e) {
             System.out.println("Parameter 2 needs to be a number");
         }
     }
 
     private void doMyForwardImplementation(String[] commands) {
-        if(commands.length!=2){
-           System.out.println("Incorrect number of parameters");
-          return;
-         }
-        try {
-            int distance = Integer.parseInt(commands[1]);
-            forward(distance);
+        if (commands.length != 2) {
+            System.out.println("Incorrect number of parameters");
+            return;
         }
-        catch(NumberFormatException e){
+        int distance = Integer.parseInt(commands[1]);
+        if(distance <0 || distance >600){
+            System.out.println("Out of bounds");
+            return;
+        }
+        try {
+            forward(distance);
+        } catch (NumberFormatException e) {
             System.out.println("Parameter 2 needs to be a number");
         }
     }
@@ -130,6 +203,8 @@ public class TurtleGraphics extends OOPGraphics {
     public boolean isValidCommand(String command) {
         return Arrays.asList(commands).contains(command);
     }
+
 }
+
 
 
