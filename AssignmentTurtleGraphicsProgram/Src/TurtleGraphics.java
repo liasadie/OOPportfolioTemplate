@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class TurtleGraphics extends OOPGraphics {
 
     private final String[] commands =
-            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear", "circle", "square", "penwidth"};
+            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear", "circle", "square", "penwidth", "triangle"};
 
 
     public TurtleGraphics() {
@@ -87,6 +87,33 @@ public class TurtleGraphics extends OOPGraphics {
             case "penwidth":
                 doMyPenWidthImplementation(commands);
                 return;
+            case "triangle":
+                doMyTriangleImplementation(commands);
+                return;
+        }
+    }
+
+    private void doMyTriangleImplementation(String[] commands) {
+        if (commands.length != 2){
+            System.out.println("incorrect number of parameters");
+            return;
+        }
+        int side = Integer.parseInt(commands [1]);
+        if(side <0 || side >600){
+            System.out.println("Out of bounds");
+            return;
+        }
+        try{
+            turnLeft(30);
+            penDown();
+            forward(side);
+            turnRight(120);
+            forward(side);
+            turnRight(120);
+            forward(side);
+        }
+        catch(NumberFormatException e) {
+            System.out.println("Parameter 2 needs to be a number");
         }
     }
 
