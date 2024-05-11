@@ -1,3 +1,5 @@
+package Src;
+
 import uk.ac.leedsbeckett.oop.OOPGraphics;
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 public class TurtleGraphics extends OOPGraphics {
 
     private final String[] commands =
-            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear", "circle", "square", "about"};
+            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear", "circle", "square", "penwidth"};
 
 
     public TurtleGraphics() {
@@ -82,10 +84,27 @@ public class TurtleGraphics extends OOPGraphics {
             case "square":
                 doMySquareImplementation(commands);
                 return;
-            case "about":
-                about();
-                displayMessage("Lia");
+            case "penwidth":
+                doMyPenWidthImplementation(commands);
                 return;
+        }
+    }
+
+    private void doMyPenWidthImplementation(String[] commands) {
+        if (commands.length != 2) {
+            System.out.println("Incorrect number of parameters");
+            return;
+        }
+        int width = Integer.parseInt(commands[1]);
+        if(width <1 || width >20){
+            System.out.println("Out of bounds");
+            return;
+        }
+        try{
+            setStroke(width);
+        }
+        catch(NumberFormatException e) {
+            System.out.println("Parameter 2 needs to be a number");
         }
     }
 
@@ -172,7 +191,7 @@ public class TurtleGraphics extends OOPGraphics {
             return;
         }
         int amount = Integer.parseInt(commands[1]);
-        if(amount <-600 || amount >0){
+        if(amount <0 || amount >600){
             System.out.println("Out of bounds");
             return;
         }
