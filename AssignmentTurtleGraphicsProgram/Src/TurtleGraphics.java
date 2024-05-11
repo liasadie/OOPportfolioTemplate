@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class TurtleGraphics extends OOPGraphics {
 
     private final String[] commands =
-            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear", "circle", "square", "penwidth", "triangle"};
+            {"penup", "pendown", "turnleft", "turnright", "forward", "backward", "black", "green", "red", "white", "reset", "clear", "circle", "square", "penwidth", "triangle", "about"};
 
 
     public TurtleGraphics() {
@@ -20,10 +20,6 @@ public class TurtleGraphics extends OOPGraphics {
         MainFrame.pack();                                               //set the frame to a size we can see
         MainFrame.setVisible(true);                             //now display it
         //about();                                                                //call the OOPGraphics about method to display version information.
-    }
-
-    public void displayMessage(String message){
-        JOptionPane.showMessageDialog(null, message);
     }
 
 
@@ -90,6 +86,8 @@ public class TurtleGraphics extends OOPGraphics {
             case "triangle":
                 doMyTriangleImplementation(commands);
                 return;
+            case "about":
+                about();
         }
     }
 
